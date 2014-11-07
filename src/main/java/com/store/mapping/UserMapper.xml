@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="com.store.model.User">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="age" property="age" jdbcType="VARCHAR" />
+		<result column="identitys" property="identitys" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, address, age, identitys, password, sex, username,
+		status
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_user
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.store.model.User">
+		insert into t_user (id,
+		address, age,
+		identitys, password, sex,
+		username, status)
+		values
+		(#{id,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR},
+		#{age,jdbcType=VARCHAR},
+		#{identitys,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+		#{username,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.store.model.User">
+		insert into t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="age != null">
+				age,
+			</if>
+			<if test="identitys != null">
+				identitys,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				#{age,jdbcType=VARCHAR},
+			</if>
+			<if test="identitys != null">
+				#{identitys,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.store.model.User">
+		update t_user
+		<set>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				age = #{age,jdbcType=VARCHAR},
+			</if>
+			<if test="identitys != null">
+				identitys = #{identitys,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.store.model.User">
+		update t_user
+		set
+		address = #{address,jdbcType=VARCHAR},
+		age = #{age,jdbcType=VARCHAR},
+		identitys = #{identitys,jdbcType=VARCHAR},
+		password =
+		#{password,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=VARCHAR},
+		username =
+		#{username,jdbcType=VARCHAR},
+		status = #{status,jdbcType=VARCHAR}
+		where
+		id = #{id,jdbcType=INTEGER}
+	</update>
+
+
+	<!-- 可以实现关联查询，可是会出现1+n次查询的情况，效率低下 -->
+	<select id="selectUserOrders" resultType="com.store.model.Orders"
+		parameterType="java.lang.Integer">
+		SELECT
+		t_orders.id,
+		t_orders.invoice_Status,
+		t_orders.invoice_number,
+		t_orders.money,
+		t_orders.order_number,
+		t_orders.payment_time,
+		t_orders.phonenumber,
+		t_orders.product_quantity,
+		t_orders.recipient_address,
+		t_orders.mobile_id,
+		t_orders.user_id,
+		t_orders.recipient_name,
+		t_orders.paymentMode
+		FROM
+		t_orders
+		where
+		t_orders.user_id=#{id,jdbcType=INTEGER}
+	</select>
+	<resultMap type="com.store.model.User" id="userOrders"
+		extends="BaseResultMap">
+		<collection property="userorders" column="id" javaType="list"
+			select="selectUserOrders"></collection>
+	</resultMap>
+	<select id="getAll" resultMap="userOrders">
+		select id, address, age,
+		identitys, password, sex, username, status from
+		t_user
+	</select>
+
+
+
+	<!-- 三表查询，直接sql连接查询，效率更高 -->
+	<select id="selectMobile" resultType="com.store.model.Mobile"
+		parameterType="java.lang.Integer">
+		SELECT
+		t_mobile.id,
+		t_mobile.brand,
+		t_mobile.camera,
+		t_mobile.color,
+		t_mobile.cpu,
+		t_mobile.discription,
+		t_mobile.model,
+		t_mobile.network_format,
+		t_mobile.pictrue,
+		t_mobile.price,
+		t_mobile.ram,
+		t_mobile.rom,
+		t_mobile.screen_size,
+		t_mobile.time_to_market
+		FROM
+		t_mobile
+		where
+		t_mobile.id=#{mobiles_id,jdbcType=INTEGER}
+	</select>
+	<resultMap type="com.store.model.User" id="userOrders2"
+		extends="BaseResultMap">
+		<collection property="userorders" javaType="list"
+			ofType="com.store.model.Orders">
+			<id column="order_id" property="id" />
+			<result column="invoice_Status" property="invoiceStatus" />
+			<result column="invoice_number" property="invoiceNumber" />
+			<result column="money" property="money" />
+			<result column="order_number" property="orderNumber" />
+			<result column="payment_time" property="paymentTime" />
+			<result column="phonenumber" property="phonenumber" />
+			<result column="product_quantity" property="productQuantity" />
+			<result column="recipient_address" property="recipientAddress" />
+			<result column="recipient_name" property="recipientName" />
+			<result column="payment_mode" property="paymentmode" />
+			<result column="mobile_id" property="mobileId" />
+			<association property="mobile" column="mobiles_id"
+				javaType="com.store.model.Mobile" select="selectMobile">
+				<id column="brand" property="brand" />
+				<id column="camera" property="camera" />
+				<id column="color" property="color" />
+				<id column="cpu" property="cpu" />
+				<id column="discription" property="discription" />
+				<id column="model" property="model" />
+				<id column="network_format" property="networkFormat" />
+				<id column="pictrue" property="pictrue" />
+				<id column="price" property="price" />
+				<id column="ram" property="ram" />
+				<id column="rom" property="rom" />
+				<id column="screen_size" property="screenSize" />
+				<id column="time_to_market" property="timeToMarket" />
+			</association>
+		</collection>
+
+	</resultMap>
+	<select id="getAll2" resultMap="userOrders2">
+		SELECT
+		t_user.id,
+		t_user.address,
+		t_user.age,
+		t_user.identitys,
+		t_user.`password`,
+		t_user.sex,
+		t_user.username,
+		t_user.`status`,
+		t_orders.id order_id,
+		t_orders.invoice_Status,
+		t_orders.invoice_number,
+		t_orders.money,
+		t_orders.order_number,
+		t_orders.payment_time,
+		t_orders.phonenumber,
+		t_orders.product_quantity,
+		t_orders.recipient_address,
+		t_orders.user_id,
+		t_orders.recipient_name,
+		t_orders.paymentMode
+		t_orders.mobile_id mobiles_id,
+		FROM
+		t_user
+		INNER JOIN
+		t_orders ON
+		t_user.id = t_orders.user_id
+
+	</select>
+
+<!-- 三表级联查询，一条sql即得到结果 -->
+<resultMap type="com.store.model.User" id="userOrders3"
+		extends="BaseResultMap">
+		<collection property="userorders" javaType="list"
+			ofType="com.store.model.Orders">
+			<id column="order_id" property="id" />
+			<result column="invoice_Status" property="invoiceStatus" />
+			<result column="invoice_number" property="invoiceNumber" />
+			<result column="money" property="money" />
+			<result column="order_number" property="orderNumber" />
+			<result column="payment_time" property="paymentTime" />
+			<result column="phonenumber" property="phonenumber" />
+			<result column="product_quantity" property="productQuantity" />
+			<result column="recipient_address" property="recipientAddress" />
+			<result column="recipient_name" property="recipientName" />
+			<result column="payment_mode" property="paymentmode" />
+			<result column="mobiles_id" property="mobileId" />
+			<association property="mobile" javaType="com.store.model.Mobile">
+				<result column="brand" property="brand" />
+				<result column="camera" property="camera" />
+				<result column="color" property="color" />
+				<result column="cpu" property="cpu" />
+				<result column="discription" property="discription" />
+				<result column="model" property="model" />
+				<result column="network_format" property="networkFormat" />
+				<result column="pictrue" property="pictrue" />
+				<result column="price" property="price" />
+				<result column="ram" property="ram" />
+				<result column="rom" property="rom" />
+				<result column="screen_size" property="screenSize" />
+				<result column="time_to_market" property="timeToMarket" />
+			</association>
+		</collection>
+	</resultMap>
+	<select id="getAll3" resultMap="userOrders3">
+		SELECT
+		t_user.id,
+		t_user.address,
+		t_user.age,
+		t_user.identitys,
+		t_user.`password`,
+		t_user.sex,
+		t_user.username,
+		t_user.`status`,
+		t_orders.id,
+		t_orders.invoice_Status,
+		t_orders.invoice_number,
+		t_orders.money,
+		t_orders.order_number,
+		t_orders.payment_time,
+		t_orders.phonenumber,
+		t_orders.product_quantity,
+		t_orders.recipient_address,
+		t_orders.mobile_id mobiles_id,
+		t_orders.user_id,
+		t_orders.recipient_name,
+		t_orders.paymentMode,
+		t_mobile.id,
+		t_mobile.brand,
+		t_mobile.camera,
+		t_mobile.color,
+		t_mobile.cpu,
+		t_mobile.discription,
+		t_mobile.model,
+		t_mobile.network_format,
+		t_mobile.pictrue,
+		t_mobile.price,
+		t_mobile.ram,
+		t_mobile.rom,
+		t_mobile.screen_size,
+		t_mobile.time_to_market
+		FROM
+		t_user
+		INNER JOIN t_orders ON t_user.id = t_orders.user_id
+		INNER JOIN t_mobile ON t_orders.mobile_id = t_mobile.id
+	</select>
+</mapper>

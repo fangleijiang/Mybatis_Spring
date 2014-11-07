@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.OrdersMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.Orders" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="invoice_Status" property="invoiceStatus" jdbcType="INTEGER" />
+    <result column="invoice_number" property="invoiceNumber" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="INTEGER" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP" />
+    <result column="phonenumber" property="phonenumber" jdbcType="VARCHAR" />
+    <result column="product_quantity" property="productQuantity" jdbcType="INTEGER" />
+    <result column="recipient_address" property="recipientAddress" jdbcType="VARCHAR" />
+    <result column="mobile_id" property="mobileId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="recipient_name" property="recipientName" jdbcType="VARCHAR" />
+    <result column="paymentMode" property="paymentmode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, invoice_Status, invoice_number, money, order_number, payment_time, phonenumber, 
+    product_quantity, recipient_address, mobile_id, user_id, recipient_name, paymentMode
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_orders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_orders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.Orders" >
+    insert into t_orders (id, invoice_Status, invoice_number, 
+      money, order_number, payment_time, 
+      phonenumber, product_quantity, recipient_address, 
+      mobile_id, user_id, recipient_name, 
+      paymentMode)
+    values (#{id,jdbcType=INTEGER}, #{invoiceStatus,jdbcType=INTEGER}, #{invoiceNumber,jdbcType=VARCHAR}, 
+      #{money,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{paymentTime,jdbcType=TIMESTAMP}, 
+      #{phonenumber,jdbcType=VARCHAR}, #{productQuantity,jdbcType=INTEGER}, #{recipientAddress,jdbcType=VARCHAR}, 
+      #{mobileId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{recipientName,jdbcType=VARCHAR}, 
+      #{paymentmode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.Orders" >
+    insert into t_orders
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="invoiceStatus != null" >
+        invoice_Status,
+      </if>
+      <if test="invoiceNumber != null" >
+        invoice_number,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="orderNumber != null" >
+        order_number,
+      </if>
+      <if test="paymentTime != null" >
+        payment_time,
+      </if>
+      <if test="phonenumber != null" >
+        phonenumber,
+      </if>
+      <if test="productQuantity != null" >
+        product_quantity,
+      </if>
+      <if test="recipientAddress != null" >
+        recipient_address,
+      </if>
+      <if test="mobileId != null" >
+        mobile_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="recipientName != null" >
+        recipient_name,
+      </if>
+      <if test="paymentmode != null" >
+        paymentMode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceStatus != null" >
+        #{invoiceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceNumber != null" >
+        #{invoiceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentTime != null" >
+        #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phonenumber != null" >
+        #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productQuantity != null" >
+        #{productQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="recipientAddress != null" >
+        #{recipientAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileId != null" >
+        #{mobileId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="recipientName != null" >
+        #{recipientName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentmode != null" >
+        #{paymentmode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.Orders" >
+    update t_orders
+    <set >
+      <if test="invoiceStatus != null" >
+        invoice_Status = #{invoiceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceNumber != null" >
+        invoice_number = #{invoiceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentTime != null" >
+        payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phonenumber != null" >
+        phonenumber = #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productQuantity != null" >
+        product_quantity = #{productQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="recipientAddress != null" >
+        recipient_address = #{recipientAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileId != null" >
+        mobile_id = #{mobileId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="recipientName != null" >
+        recipient_name = #{recipientName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentmode != null" >
+        paymentMode = #{paymentmode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.Orders" >
+    update t_orders
+    set invoice_Status = #{invoiceStatus,jdbcType=INTEGER},
+      invoice_number = #{invoiceNumber,jdbcType=VARCHAR},
+      money = #{money,jdbcType=INTEGER},
+      order_number = #{orderNumber,jdbcType=VARCHAR},
+      payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+      phonenumber = #{phonenumber,jdbcType=VARCHAR},
+      product_quantity = #{productQuantity,jdbcType=INTEGER},
+      recipient_address = #{recipientAddress,jdbcType=VARCHAR},
+      mobile_id = #{mobileId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      recipient_name = #{recipientName,jdbcType=VARCHAR},
+      paymentMode = #{paymentmode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

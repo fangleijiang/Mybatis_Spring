@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.dao.MobileMapper" >
+  <resultMap id="BaseResultMap" type="com.store.model.Mobile" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="camera" property="camera" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="cpu" property="cpu" jdbcType="VARCHAR" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="network_format" property="networkFormat" jdbcType="VARCHAR" />
+    <result column="pictrue" property="pictrue" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="ram" property="ram" jdbcType="VARCHAR" />
+    <result column="rom" property="rom" jdbcType="VARCHAR" />
+    <result column="screen_size" property="screenSize" jdbcType="VARCHAR" />
+    <result column="time_to_market" property="timeToMarket" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.store.model.Mobile" extends="BaseResultMap" >
+    <result column="discription" property="discription" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, brand, camera, color, cpu, model, network_format, pictrue, price, ram, rom, screen_size, 
+    time_to_market
+  </sql>
+  <sql id="Blob_Column_List" >
+    discription
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_mobile
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_mobile
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.store.model.Mobile" >
+    insert into t_mobile (id, brand, camera, 
+      color, cpu, model, 
+      network_format, pictrue, price, 
+      ram, rom, screen_size, 
+      time_to_market, discription)
+    values (#{id,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}, #{camera,jdbcType=VARCHAR}, 
+      #{color,jdbcType=VARCHAR}, #{cpu,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, 
+      #{networkFormat,jdbcType=VARCHAR}, #{pictrue,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
+      #{ram,jdbcType=VARCHAR}, #{rom,jdbcType=VARCHAR}, #{screenSize,jdbcType=VARCHAR}, 
+      #{timeToMarket,jdbcType=VARCHAR}, #{discription,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.store.model.Mobile" >
+    insert into t_mobile
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="brand != null" >
+        brand,
+      </if>
+      <if test="camera != null" >
+        camera,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="cpu != null" >
+        cpu,
+      </if>
+      <if test="model != null" >
+        model,
+      </if>
+      <if test="networkFormat != null" >
+        network_format,
+      </if>
+      <if test="pictrue != null" >
+        pictrue,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="ram != null" >
+        ram,
+      </if>
+      <if test="rom != null" >
+        rom,
+      </if>
+      <if test="screenSize != null" >
+        screen_size,
+      </if>
+      <if test="timeToMarket != null" >
+        time_to_market,
+      </if>
+      <if test="discription != null" >
+        discription,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="camera != null" >
+        #{camera,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="cpu != null" >
+        #{cpu,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="networkFormat != null" >
+        #{networkFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="pictrue != null" >
+        #{pictrue,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="ram != null" >
+        #{ram,jdbcType=VARCHAR},
+      </if>
+      <if test="rom != null" >
+        #{rom,jdbcType=VARCHAR},
+      </if>
+      <if test="screenSize != null" >
+        #{screenSize,jdbcType=VARCHAR},
+      </if>
+      <if test="timeToMarket != null" >
+        #{timeToMarket,jdbcType=VARCHAR},
+      </if>
+      <if test="discription != null" >
+        #{discription,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.store.model.Mobile" >
+    update t_mobile
+    <set >
+      <if test="brand != null" >
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="camera != null" >
+        camera = #{camera,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="cpu != null" >
+        cpu = #{cpu,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="networkFormat != null" >
+        network_format = #{networkFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="pictrue != null" >
+        pictrue = #{pictrue,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="ram != null" >
+        ram = #{ram,jdbcType=VARCHAR},
+      </if>
+      <if test="rom != null" >
+        rom = #{rom,jdbcType=VARCHAR},
+      </if>
+      <if test="screenSize != null" >
+        screen_size = #{screenSize,jdbcType=VARCHAR},
+      </if>
+      <if test="timeToMarket != null" >
+        time_to_market = #{timeToMarket,jdbcType=VARCHAR},
+      </if>
+      <if test="discription != null" >
+        discription = #{discription,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.store.model.Mobile" >
+    update t_mobile
+    set brand = #{brand,jdbcType=VARCHAR},
+      camera = #{camera,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      cpu = #{cpu,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      network_format = #{networkFormat,jdbcType=VARCHAR},
+      pictrue = #{pictrue,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      ram = #{ram,jdbcType=VARCHAR},
+      rom = #{rom,jdbcType=VARCHAR},
+      screen_size = #{screenSize,jdbcType=VARCHAR},
+      time_to_market = #{timeToMarket,jdbcType=VARCHAR},
+      discription = #{discription,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.store.model.Mobile" >
+    update t_mobile
+    set brand = #{brand,jdbcType=VARCHAR},
+      camera = #{camera,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      cpu = #{cpu,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      network_format = #{networkFormat,jdbcType=VARCHAR},
+      pictrue = #{pictrue,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      ram = #{ram,jdbcType=VARCHAR},
+      rom = #{rom,jdbcType=VARCHAR},
+      screen_size = #{screenSize,jdbcType=VARCHAR},
+      time_to_market = #{timeToMarket,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
